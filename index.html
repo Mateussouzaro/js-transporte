@@ -89,7 +89,7 @@ const VERSAO = {
 };
 for (const k of ["pesada","lite"]) {
   const a = document.getElementById("dl-"+k);
-  a.href = `https://github.com/${REPO}/releases/latest/download/${VERSAO[k].arquivo}`;
+  a.href = `https://github.com/${REPO}/raw/main/downloads/${VERSAO[k].arquivo}`;
   document.getElementById("m-"+k).textContent = `v${VERSAO.numero} · ${VERSAO[k].mb} MB · ${VERSAO.data}`;
 }
 const log = document.getElementById("log");
