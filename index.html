@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JS Transporte – Simulador de Ônibus</title>
+<meta name="description" content="JS Transporte: simulador de ônibus rodoviário 3D para Android. Baixe a versão Pesada ou a Lite.">
+<style>
+:root{--bg:#0b1118;--card:#131d28;--line:#223244;--tx:#e8eef5;--mut:#8fa3b8;--gold:#ffc61a;--blue:#2aa8ff;--grn:#35d07f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+header{padding:56px 0 32px;text-align:center;background:radial-gradient(ellipse at top,#1b2e44 0,transparent 70%)}
+.logo{font-weight:800;font-size:44px;letter-spacing:1px}.logo b{color:#ff3b3b}
+h1{margin:6px 0 10px;font-size:clamp(26px,5vw,40px)}
+.sub{color:var(--mut);max-width:620px;margin:0 auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin:32px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.card h2{margin:0 0 4px;font-size:22px}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 10px;border-radius:99px;margin-bottom:10px}
+.t1{background:#3a2a05;color:var(--gold)}.t2{background:#08301f;color:var(--grn)}
+ul{padding-left:18px;color:var(--mut);margin:10px 0 16px}
+.btn{display:block;text-align:center;text-decoration:none;font-weight:800;padding:14px;border-radius:12px;color:#06101a;background:var(--gold)}
+.btn.l{background:var(--grn)}
+.meta{color:var(--mut);font-size:13px;margin-top:8px;text-align:center}
+section{margin:36px 0}
+h3{font-size:22px;margin:0 0 12px}
+.log{border-left:2px solid var(--line);padding-left:16px}
+.log div{margin-bottom:18px}.log b{color:var(--gold)}
+.log span{color:var(--mut);font-size:13px;margin-left:6px}
+ol{color:var(--mut)}ol b{color:var(--tx)}
+footer{color:var(--mut);text-align:center;padding:30px 0 50px;font-size:13px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="logo"><b>JS</b> TRANSPORTE</div>
+  <h1>Simulador de ônibus rodoviário 3D</h1>
+  <p class="sub">Dirija pelas ruas de Antônio Prado, faça seu turno, pegue passageiros, abasteça no posto e jogue online com amigos. Para Android.</p>
+</div></header>
+<main class="wrap">
+  <div class="cards">
+    <div class="card">
+      <span class="tag t1">QUALIDADE MÁXIMA</span>
+      <h2>Versão Pesada</h2>
+      <ul><li>Gráficos Alto (sombras, névoa suave, alcance longo)</li><li>Mais carros e pedestres na cidade</li><li>Para celulares potentes</li></ul>
+      <a class="btn" id="dl-pesada" href="#">Baixar Pesada</a>
+      <div class="meta" id="m-pesada"></div>
+    </div>
+    <div class="card">
+      <span class="tag t2">DESEMPENHO</span>
+      <h2>Versão Lite</h2>
+      <ul><li>Resolução e alcance reduzidos para rodar liso</li><li>Menos trânsito e pedestres</li><li>Para celulares simples ou que travam</li><li>Instala separado da Pesada</li></ul>
+      <a class="btn l" id="dl-lite" href="#">Baixar Lite</a>
+      <div class="meta" id="m-lite"></div>
+    </div>
+  </div>
+
+  <section>
+    <h3>Como instalar</h3>
+    <ol>
+      <li><b>Baixe</b> o arquivo .apk da versão escolhida.</li>
+      <li>Abra o arquivo. Se o Android avisar, permita <b>“instalar apps desconhecidos”</b> para o navegador.</li>
+      <li>Toque em <b>Instalar</b> e depois em <b>Abrir</b>.</li>
+      <li>As atualizações instalam por cima, sem perder o progresso.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h3>Novidades</h3>
+    <div class="log" id="log"></div>
+  </section>
+</main>
+<footer>JS Transporte · feito por Mateus · Sem anúncios</footer>
+<script>
+const REPO = "Mateussouzaro/js-transporte";
+// Esta lista é atualizada a cada versão nova.
+const VERSAO = {
+  numero: "23", data: "26/11/2026",
+  pesada: {arquivo: "JS_Transporte_Pesada.apk", mb: 92},
+  lite:   {arquivo: "JS_Transporte_Lite.apk",   mb: 92},
+  novidades: [
+    {v:"23", d:"26/11/2026", itens:["Desempenho: minimapa e mapa muito mais leves","Resolução dinâmica: o jogo ajusta sozinho se o FPS cair","Nova versão Lite para celulares simples","Pedestres nas ruas, 54 semáforos e faixas, menos trânsito","Botão PULAR ao andar a pé"]},
+    {v:"21", d:"26/11/2026", itens:["Rodoviária em terreno livre","Analógico para andar fora do ônibus"]},
+    {v:"19", d:"26/11/2026", itens:["Posto de gasolina com mangueira","Ônibus sobe morros com mais força"]},
+    {v:"18", d:"26/11/2026", itens:["Início na rodoviária, motorista físico, turno e menu SERVIÇO"]},
+    {v:"16", d:"26/11/2026", itens:["Modo online com salas por código"]}
+  ]
+};
+for (const k of ["pesada","lite"]) {
+  const a = document.getElementById("dl-"+k);
+  a.href = `https://github.com/${REPO}/releases/latest/download/${VERSAO[k].arquivo}`;
+  document.getElementById("m-"+k).textContent = `v${VERSAO.numero} · ${VERSAO[k].mb} MB · ${VERSAO.data}`;
+}
+const log = document.getElementById("log");
+for (const n of VERSAO.novidades) {
+  const d = document.createElement("div");
+  const h = document.createElement("b"); h.textContent = "v"+n.v;
+  const s = document.createElement("span"); s.textContent = n.d;
+  const ul = document.createElement("ul");
+  for (const i of n.itens) { const li = document.createElement("li"); li.textContent = i; ul.appendChild(li); }
+  d.append(h, s, ul); log.appendChild(d);
+}
+</script>
+</body>
+</html>
